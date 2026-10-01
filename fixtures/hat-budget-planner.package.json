@@ -1,0 +1,172 @@
+{
+  "schema": "hathq://hat/package/v2",
+  "package_id": "hat/budget-planner",
+  "repository_id": "hat-budget-planner",
+  "version": "1.0.1",
+  "specification_version": "1.0.0",
+  "manifest": {
+    "schema": "hathq://hat/manifest/v1",
+    "id": "hat/budget-planner",
+    "name": "Budget planner",
+    "version": "1.0.1",
+    "capabilities": [
+      "budget-scenario-analysis",
+      "variance-review"
+    ],
+    "decision_boundaries": [
+      "recommend-budget-scenario"
+    ],
+    "input_classifications": [
+      "internal-confidential"
+    ],
+    "output_classification": "internal-confidential",
+    "permissions": [
+      {
+        "resource": "planning-ledger",
+        "operations": [
+          "inspect-aggregate",
+          "propose-scenario"
+        ],
+        "mode": "propose"
+      }
+    ]
+  },
+  "operations": [
+    {
+      "id": "hathq://vocabulary/action/review-budget-scenario/v1",
+      "input_schema": "hathq://hat-budget-planner/review-budget-scenario-input/v1",
+      "output_schema": "hathq://hat-budget-planner/review-budget-scenario-output/v1",
+      "context_plan": {
+        "id": "review-budget-scenario-context",
+        "selectors": [
+          {
+            "namespace": "planning-ledger",
+            "projection_schema": "hathq://hat-budget-planner/planning-ledger/v1",
+            "required": true
+          }
+        ],
+        "unresolved_policy": "record-unresolved"
+      },
+      "reducer": {
+        "id": "review-budget-scenario-reducer",
+        "strategy": "typed-domain-event",
+        "event_schema": "hathq://hat-budget-planner/review-budget-scenario-event/v1",
+        "projection_schema": "hathq://hat-budget-planner/review-budget-scenario-projection/v1",
+        "conflict_policy": "reject"
+      },
+      "procedure": {
+        "id": "review-budget-scenario-procedure",
+        "steps": [
+          {
+            "action_id": "hathq://vocabulary/action/review-budget-scenario/v1",
+            "input_schema": "hathq://hat-budget-planner/review-budget-scenario-input/v1",
+            "output_schema": "hathq://hat-budget-planner/review-budget-scenario-output/v1"
+          }
+        ]
+      },
+      "handler": {
+        "kind": "declarative-hat",
+        "reference": "review-budget-scenario-procedure"
+      }
+    }
+  ],
+  "catalog": {
+    "schema": "hathq://hat/semantic-catalog/v1",
+    "identity": {
+      "catalog_id": "hat-budget-planner",
+      "version": 1,
+      "digest_sha256": "9abe0d87d73e286fe5976a88d09038271c83c6469cb44a1033cde66cfe4164ae"
+    },
+    "owner_repository_id": "hat-budget-planner",
+    "foundation": false,
+    "dependencies": [
+      {
+        "catalog_id": "hathq.foundation",
+        "version": 1,
+        "digest_sha256": "6b618dff030e551bafd6b1a70fe6daf71e2873de9c2230f4cf71e9ac9fbf2c0f"
+      }
+    ],
+    "incompatibilities": [],
+    "terms": [
+      {
+        "reference": {
+          "catalog_id": "hat-budget-planner",
+          "catalog_digest_sha256": "9abe0d87d73e286fe5976a88d09038271c83c6469cb44a1033cde66cfe4164ae",
+          "term_id": "hathq://vocabulary/entity/planning-ledger/v1",
+          "version": 1,
+          "definition_digest_sha256": "0d6815f21192aa5e3459f4381826e718357af6d68c460c43c9235d7d51938b0b",
+          "kind": "entity-type"
+        },
+        "wire_schema": "hathq://hat-budget-planner/planning-ledger/v1",
+        "semantic_icon": "generic",
+        "dependencies": [],
+        "is_a": [],
+        "domain": [],
+        "range": []
+      },
+      {
+        "reference": {
+          "catalog_id": "hat-budget-planner",
+          "catalog_digest_sha256": "9abe0d87d73e286fe5976a88d09038271c83c6469cb44a1033cde66cfe4164ae",
+          "term_id": "hathq://vocabulary/state/budget-scenario/v1",
+          "version": 1,
+          "definition_digest_sha256": "c0f3c8b678cc01f38d25dd627ff1cd3f26cbbd9104e16c559f5c2fa64a893841",
+          "kind": "state-type"
+        },
+        "wire_schema": "hathq://hat-budget-planner/budget-scenario/v1",
+        "semantic_icon": "generic",
+        "dependencies": [],
+        "is_a": [],
+        "domain": [],
+        "range": []
+      },
+      {
+        "reference": {
+          "catalog_id": "hat-budget-planner",
+          "catalog_digest_sha256": "9abe0d87d73e286fe5976a88d09038271c83c6469cb44a1033cde66cfe4164ae",
+          "term_id": "hathq://vocabulary/action/review-budget-scenario/v1",
+          "version": 1,
+          "definition_digest_sha256": "bd28d83f7eb0d1854676cab218978e4b5b5f03199aa80f4a71abd04e5148787f",
+          "kind": "action"
+        },
+        "wire_schema": "hathq://hat-budget-planner/review-budget-scenario-input/v1",
+        "semantic_icon": "generic",
+        "dependencies": [],
+        "is_a": [],
+        "domain": [],
+        "range": []
+      }
+    ],
+    "lexicalizations": [],
+    "frames": [
+      {
+        "frame_id": "review-budget-scenario-procedure-frame",
+        "definition_digest_sha256": "833c064ac9cc51628be3ab83962847c3f3bb393292c802a707f819d79be43f68",
+        "predicate": {
+          "catalog_id": "hat-budget-planner",
+          "catalog_digest_sha256": "9abe0d87d73e286fe5976a88d09038271c83c6469cb44a1033cde66cfe4164ae",
+          "term_id": "hathq://vocabulary/action/review-budget-scenario/v1",
+          "version": 1,
+          "definition_digest_sha256": "bd28d83f7eb0d1854676cab218978e4b5b5f03199aa80f4a71abd04e5148787f",
+          "kind": "action"
+        },
+        "roles": [
+          {
+            "role": "actor",
+            "required": true,
+            "accepted_kinds": [
+              "entity-type"
+            ]
+          },
+          {
+            "role": "object",
+            "required": true,
+            "accepted_kinds": [
+              "concept"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "purpose": "Reviewed minimum examples, independent of product-returned declarations; not an exhaustive classification list or a claim of semantic equivalence.",
+  "views": [
+    { "id": "identity", "scene": "person", "baseSymbol": "Identity", "labels": { "en": "Identity", "ja": "基本情報" }, "requiredForm": "hatter-profile-identity" },
+    { "id": "place", "scene": "person", "baseSymbol": "Place", "labels": { "en": "Place", "ja": "場所" }, "requiredForm": "hatter-profile-residence" },
+    { "id": "people", "scene": "world", "baseSymbol": "Agent", "labels": { "en": "People", "ja": "人" } }
+  ]
+}

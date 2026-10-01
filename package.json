@@ -1,0 +1,20 @@
+{
+  "name": "@hathq/hatter-e2e",
+  "version": "0.10.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "scenario:compile": "node bin/compile-scenario.mjs",
+    "test": "playwright test --config playwright.config.mjs",
+    "test:contract": "playwright test --config playwright.config.mjs --grep-invert 'released multi-HAT acceptance'",
+    "manual": "node bin/manual.mjs",
+    "showcase": "node bin/showcase.mjs"
+  },
+  "engines": {
+    "node": "^22.0.0 || ^24.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1"
+  },
+  "license": "Apache-2.0"
+}

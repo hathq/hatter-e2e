@@ -1,0 +1,196 @@
+{
+  "schema": "hatter://acceptance/requirements/v1",
+  "requirements": [
+    {
+      "id": "feedback-audit-independence",
+      "actions": [],
+      "implementationGap": "Package memory restoration does not prove that released local inference has stopped reading rollout/profile history.",
+      "expectation": "In the actual local-inference browser journey, adopt Asia/Tokyo, delete audit/chat and restart: inference still uses Tokyo. With audit Tokyo but cleared temporary memory and no adoption, inference reports unknown. Correct long-term to Europe/London while audit remains Tokyo: inference uses London. Compare exact input memory revisions and selected bindings, not generated prose alone."
+    },
+    {
+      "id": "feedback-convergence",
+      "actions": [],
+      "implementationGap": "No released revision-driven producer and typed NoChange journey yet.",
+      "expectation": "Candidate -> exact decision -> one new memory revision -> local reevaluation resolved -> NoChange. Assert input/output revision, decision/origin/causation, bounded producer invocation count and no repeated candidate or revision."
+    },
+    {
+      "id": "feedback-decisions",
+      "actions": [],
+      "implementationGap": "Consumer-only retain/clear/promote does not implement exact confirmation options and rejection/correction.",
+      "expectation": "Browser temporary choice changes only short-term and is forgotten on clear; permanent choice explicitly promotes and survives clear/restart. Retain remains pending; reject leaves long-term unchanged. Exact correction succeeds once; old revision returns typed conflict. Labels never select an operation."
+    },
+    {
+      "id": "feedback-concurrent-decisions",
+      "actions": [],
+      "implementationGap": "Filesystem CAS tests are not the Browser A/B, CLI and inference confirmation race.",
+      "expectation": "Four clients decide on the same exact candidate/request/revision. One semantic mutation succeeds, three return typed conflict. No silent overwrite or privilege gain; compare retained decision and final memory revision."
+    },
+    {
+      "id": "feedback-producer-restoration",
+      "actions": [],
+      "implementationGap": "RuntimeRole references are not yet sufficient to restore the actual producer independently of history.",
+      "expectation": "Restart with only sem repository, RuntimeRole and provider references restores exact pending candidates and accepted facts. Delete audit/chat beforehand. Verify two-role isolation and subsequent actual local evaluation; no role-owned semantic body copy."
+    },
+    {
+      "id": "feedback-binding-grant",
+      "actions": [],
+      "implementationGap": "Adopted sem binding resolution is not connected to the released grant-checked invocation path.",
+      "expectation": "An exact adopted binding alone cannot execute. Current role/subject grant permits the bound capability. Revocation denies a subsequent write while adopted binding remains identical."
+    },
+    {
+      "id": "feedback-lifecycle-independence",
+      "actions": [],
+      "implementationGap": "The product has no single verified install/adopt/activate/grant journey.",
+      "expectation": "Separately observe installation, definition adoption, binding adoption, activation and grant. None implies the others; compare exact independent revisions before and after every step."
+    },
+    {
+      "id": "feedback-producer-removal",
+      "actions": [],
+      "implementationGap": "Worker retirement is not yet acceptance of feedback-producer and subscription shutdown.",
+      "expectation": "Removing the HAT stops its routes, producers and subscriptions and revokes/detaches grants. An in-flight stale result cannot mutate memory/provider state. Definitions, adopted bindings, long-term assertions and provider data remain byte/reference equivalent."
+    },
+    {
+      "id": "feedback-presentation-resolution",
+      "actions": [],
+      "implementationGap": "Independent Nuxt fixture does not certify Hatter's sem binding to presentation capability path.",
+      "expectation": "The exact adopted presentation binding resolves to a trusted renderer through generic contracts. Unknown capability produces typed unavailable; manifests cannot inject executable UI. Dynamic declaration IDs and values agree across CLI/Web."
+    },
+    {
+      "id": "feedback-registry-restart",
+      "actions": [],
+      "implementationGap": "Independent sem archive consumer is verified, but not the integrated released Hatter restart.",
+      "expectation": "Run the staged Hatter release built from exact 0.10.0 local registry archives, restart and compare adopted definition/binding/memory references. No sibling-source dependency or compatibility read."
+    },
+    {
+      "id": "feedback-authority-replacement",
+      "actions": [],
+      "implementationGap": "Fixed profile meaning and parallel JSON authority remain.",
+      "expectation": "A novel definition/binding/assertion is projected into generic UI and written via its exact operation. Restart restores values from the declared authority. Remove fixed profile catalog and Console canonical projection consumers."
+    },
+    {
+      "id": "feedback-role-memory",
+      "actions": [],
+      "implementationGap": "Role short/long feedback has not passed the integrated journey.",
+      "expectation": "Independent roles restore memory/provider/grant references and run temporary/permanent feedback without private fact leakage or semantic body duplication."
+    },
+    {
+      "id": "feedback-hat-lifecycle",
+      "actions": [],
+      "implementationGap": "Full feedback lifecycle product acceptance pending.",
+      "expectation": "The same real-browser feedback journey verifies B6 and B7 with exact before/after snapshots, not separate mocked lifecycle actions."
+    },
+    {
+      "id": "feedback-language-outcomes",
+      "actions": [],
+      "implementationGap": "Typed local inference producer and unresolved feedback are not integrated.",
+      "expectation": "Resolved, candidate, ambiguous and unresolved inputs use one adopted language revision. Unknowns remain unknown. Provider outcomes are evaluated observations, never blindly copied as personal assertions. The already-open browser receives common change notifications without Hatter polling."
+    },
+    {
+      "id": "feedback-physical-deletion",
+      "actions": [],
+      "implementationGap": "Old semantic history readers and profile authorities have not been physically removed.",
+      "expectation": "Source/dependency inventory and actual restoration tests prove no semantic reads from profile_store, audit/history/chat, applied mirrors, previous commands or old dictionary/views. Remaining audit/telemetry/projection readers have explicit non-semantic ownership."
+    },
+    {
+      "id": "context-checkpoint-lifecycle",
+      "actions": ["verify_context_checkpoint_lifecycle"],
+      "expectation": "Structured sem-lang context submitted through CLI is read exactly through HTTP and the already-open actual browser without manual refresh in the selected role. A second role cannot see it. Clear uses the exact revision and decision, stale writes fail, and a subsequent process read restores the exact checkpoint. Visible observation is single-flight and stops when hidden or disposed. This is not certification of natural-language compilation or model history replacement."
+    },
+    {
+      "id": "memory-navigation-boundary",
+      "actions": ["verify_memory_navigation_boundary", "verify_accountant_result_and_projection_journal", "verify_runtime_operation_ingestion"],
+      "expectation": "The removed history page returns 404 without a compatibility redirect, and neither navigation nor the launcher offers it. The owner memory view matches CLI/HTTP, distinguishes an absent source and fits desktop/mobile viewports. Completed worker effects remain in the exact technical projection, never becoming actionable TODOs or fabricated memory. This does not certify surface compilation, role-memory production or adopted-definition integration."
+    },
+    {
+      "id": "surface-role-memory",
+      "actions": [],
+      "implementationGap": "The released product has no verified frontend-to-role semantic input journey.",
+      "expectation": "A novel declared input produces the exact sem-lang outcome and revision in the selected role; unknown and ambiguous input preserve candidates and produce no model call, effect or promotion. Verify CLI, browser and restart."
+    },
+    {
+      "id": "hat-definition-adoption",
+      "actions": [],
+      "implementationGap": "Dynamic installed world labels do not cover HAT-provided profile meaning, binding or owner data.",
+      "expectation": "Preview a novel typed definition without mutation; explicitly adopt the exact candidate and decision, then observe its field in the already-open UI. Write and restore exact owner values through CLI/Web. Reject stale revisions and missing independent HAT authority."
+    },
+    {
+      "id": "role-memory-restoration",
+      "actions": [],
+      "implementationGap": "Legacy model history has not been replaced by the released role memory reference path.",
+      "expectation": "Two roles share the adopted language but not private short-term state. Restart preserves exact sem-lang memory references; sem-lang-owned retention removes only eligible memory and cannot substitute conversation history or a Hatter TTL."
+    },
+    {
+      "id": "unified-language-projection",
+      "actions": [],
+      "implementationGap": "Ontology, schema and protocol screens still lack acceptance against one adopted definition revision.",
+      "expectation": "Profile, world and system graphs show the same adopted concept IDs and revisions with exact distinct application binding references. Equal labels never merge different meanings; provider projections and authorization remain outside language memory."
+    },
+    {
+      "id": "adopted-semantic-memory",
+      "actions": ["verify_semantic_memory_projection", "verify_declared_profile_write_and_recovery", "verify_dynamic_restarted_dictionary"],
+      "expectation": "The product exposes typed adopted definition memory and decision/revision provenance, not just symbols; profile meanings resolve to that exact memory through CLI and HTTP, owner values survive browser input and restart. Missing memory fails acceptance; this assertion alone does not certify definition registration or inference."
+    },
+    {
+      "id": "reviewed-view-examples",
+      "actions": [
+        "verify_dynamic_dictionary",
+        "verify_declared_profile_write_and_recovery"
+      ],
+      "expectation": "Independently reviewed minimum examples match base symbols and multilingual labels; Japanese and French browser selections preserve IDs and saved values. This does not certify all semantic equivalence or HAT-owned profile editing."
+    },
+    {
+      "id": "language-provenance",
+      "actions": [
+        "verify_dynamic_dictionary"
+      ],
+      "expectation": "Released sem-lang definitions and digest are present; Hatter extensions reference exact adopted terms."
+    },
+    {
+      "id": "dictionary-profile",
+      "actions": [
+        "verify_dynamic_dictionary",
+        "verify_declared_profile_write_and_recovery"
+      ],
+      "expectation": "Profile scene, labels and field references match declarations; browser-entered values agree exactly with CLI/Web and survive restart without mutating definitions."
+    },
+    {
+      "id": "dictionary-world",
+      "actions": [
+        "verify_dynamic_dictionary",
+        "install_packages",
+        "verify_dynamic_installed_dictionary"
+      ],
+      "expectation": "A newly generated, signed entity and label appear in the already-open world scene on installation without reloading; exact catalog references agree with CLI/Web."
+    },
+    {
+      "id": "dictionary-labels",
+      "actions": [
+        "verify_dynamic_dictionary",
+        "verify_declared_profile_write_and_recovery"
+      ],
+      "expectation": "Displayed labels and semantic references come from declarations; selecting French preserves exact values and uses declared English when no French label is supplied."
+    },
+    {
+      "id": "dictionary-cli-web",
+      "actions": [
+        "verify_dynamic_dictionary",
+        "verify_dynamic_installed_dictionary"
+      ],
+      "expectation": "CLI and browser read the same dictionary revision, IDs, field references, and installed additions."
+    },
+    {
+      "id": "dictionary-recovery",
+      "actions": [
+        "verify_dynamic_restarted_dictionary"
+      ],
+      "expectation": "After process restart, installed dictionary additions and declared relationships remain exact, without extra setup tasks or stale menus."
+    },
+    {
+      "id": "retired-text-matcher-absent",
+      "actions": [
+        "verify_retired_translation_absence"
+      ],
+      "expectation": "The retired meaning/interpret endpoint returns HTTP 404 for known and unknown expressions; the current dictionary is unchanged. This does not certify frontend compilation or role memory."
+    }
+  ]
+}

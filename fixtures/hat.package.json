@@ -1,0 +1,172 @@
+{
+  "schema": "hathq://hat/package/v2",
+  "package_id": "hat/accountant",
+  "repository_id": "hat-accountant",
+  "version": "1.0.1",
+  "specification_version": "1.0.0",
+  "manifest": {
+    "schema": "hathq://hat/manifest/v1",
+    "id": "hat/accountant",
+    "name": "Accountant",
+    "version": "1.0.1",
+    "capabilities": [
+      "financial-classification",
+      "reconciliation-review"
+    ],
+    "decision_boundaries": [
+      "recommend-accounting-treatment"
+    ],
+    "input_classifications": [
+      "internal-confidential"
+    ],
+    "output_classification": "internal-confidential",
+    "permissions": [
+      {
+        "resource": "financial-record",
+        "operations": [
+          "inspect-metadata",
+          "propose-classification"
+        ],
+        "mode": "propose"
+      }
+    ]
+  },
+  "operations": [
+    {
+      "id": "hathq://vocabulary/action/classify-financial-record/v1",
+      "input_schema": "hathq://hat-accountant/classify-financial-record-input/v1",
+      "output_schema": "hathq://hat-accountant/classify-financial-record-output/v1",
+      "context_plan": {
+        "id": "classify-financial-record-context",
+        "selectors": [
+          {
+            "namespace": "financial-record",
+            "projection_schema": "hathq://hat-accountant/financial-record/v1",
+            "required": true
+          }
+        ],
+        "unresolved_policy": "record-unresolved"
+      },
+      "reducer": {
+        "id": "classify-financial-record-reducer",
+        "strategy": "typed-domain-event",
+        "event_schema": "hathq://hat-accountant/classify-financial-record-event/v1",
+        "projection_schema": "hathq://hat-accountant/classify-financial-record-projection/v1",
+        "conflict_policy": "reject"
+      },
+      "procedure": {
+        "id": "classify-financial-record-procedure",
+        "steps": [
+          {
+            "action_id": "hathq://vocabulary/action/classify-financial-record/v1",
+            "input_schema": "hathq://hat-accountant/classify-financial-record-input/v1",
+            "output_schema": "hathq://hat-accountant/classify-financial-record-output/v1"
+          }
+        ]
+      },
+      "handler": {
+        "kind": "declarative-hat",
+        "reference": "classify-financial-record-procedure"
+      }
+    }
+  ],
+  "catalog": {
+    "schema": "hathq://hat/semantic-catalog/v1",
+    "identity": {
+      "catalog_id": "hat-accountant",
+      "version": 1,
+      "digest_sha256": "6bbf85a47fb8fdb6f291d0e1441fc97578b1a80a96d5177363b189f54643a7c1"
+    },
+    "owner_repository_id": "hat-accountant",
+    "foundation": false,
+    "dependencies": [
+      {
+        "catalog_id": "hathq.foundation",
+        "version": 1,
+        "digest_sha256": "6b618dff030e551bafd6b1a70fe6daf71e2873de9c2230f4cf71e9ac9fbf2c0f"
+      }
+    ],
+    "incompatibilities": [],
+    "terms": [
+      {
+        "reference": {
+          "catalog_id": "hat-accountant",
+          "catalog_digest_sha256": "6bbf85a47fb8fdb6f291d0e1441fc97578b1a80a96d5177363b189f54643a7c1",
+          "term_id": "hathq://vocabulary/entity/financial-record/v1",
+          "version": 1,
+          "definition_digest_sha256": "8ac8cf1c7776af34381be2d93b0066557c08b1be3a9104bed390103a11f54b2d",
+          "kind": "entity-type"
+        },
+        "wire_schema": "hathq://hat-accountant/financial-record/v1",
+        "semantic_icon": "generic",
+        "dependencies": [],
+        "is_a": [],
+        "domain": [],
+        "range": []
+      },
+      {
+        "reference": {
+          "catalog_id": "hat-accountant",
+          "catalog_digest_sha256": "6bbf85a47fb8fdb6f291d0e1441fc97578b1a80a96d5177363b189f54643a7c1",
+          "term_id": "hathq://vocabulary/state/accounting-classification/v1",
+          "version": 1,
+          "definition_digest_sha256": "421823525e7a7385d01c9150dd5e3e27fa77d74193513a1a6e4666ebb2039a74",
+          "kind": "state-type"
+        },
+        "wire_schema": "hathq://hat-accountant/accounting-classification/v1",
+        "semantic_icon": "generic",
+        "dependencies": [],
+        "is_a": [],
+        "domain": [],
+        "range": []
+      },
+      {
+        "reference": {
+          "catalog_id": "hat-accountant",
+          "catalog_digest_sha256": "6bbf85a47fb8fdb6f291d0e1441fc97578b1a80a96d5177363b189f54643a7c1",
+          "term_id": "hathq://vocabulary/action/classify-financial-record/v1",
+          "version": 1,
+          "definition_digest_sha256": "8b48df09693253f83af0dad790c28026994387f45ca31be7a462bd10f093d3cb",
+          "kind": "action"
+        },
+        "wire_schema": "hathq://hat-accountant/classify-financial-record-input/v1",
+        "semantic_icon": "generic",
+        "dependencies": [],
+        "is_a": [],
+        "domain": [],
+        "range": []
+      }
+    ],
+    "lexicalizations": [],
+    "frames": [
+      {
+        "frame_id": "classify-financial-record-procedure-frame",
+        "definition_digest_sha256": "fe1f80a5cf75b852f98ae4fa61e8b513885347644c7a8c8289957d65b122582f",
+        "predicate": {
+          "catalog_id": "hat-accountant",
+          "catalog_digest_sha256": "6bbf85a47fb8fdb6f291d0e1441fc97578b1a80a96d5177363b189f54643a7c1",
+          "term_id": "hathq://vocabulary/action/classify-financial-record/v1",
+          "version": 1,
+          "definition_digest_sha256": "8b48df09693253f83af0dad790c28026994387f45ca31be7a462bd10f093d3cb",
+          "kind": "action"
+        },
+        "roles": [
+          {
+            "role": "actor",
+            "required": true,
+            "accepted_kinds": [
+              "entity-type"
+            ]
+          },
+          {
+            "role": "object",
+            "required": true,
+            "accepted_kinds": [
+              "concept"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

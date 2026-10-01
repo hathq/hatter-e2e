@@ -1,0 +1,9 @@
+Hatter E2E
+Copyright 2026 the Hatter contributors
+
+This repository contains an external product-boundary acceptance scenario for
+Hatter and Hatter Console. It does not ship as part of either product.
+
+hatter-e2e
+Copyright 2026 HAT Inc.
+See LICENSE for the selected terms. Prior grants and third-party licenses retain their respective terms.

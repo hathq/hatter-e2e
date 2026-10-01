@@ -1,0 +1,332 @@
+{
+  "$schema": "hathq://hatter-e2e/scenario/v2",
+  "id": "released-multi-hat-acceptance",
+  "title": "リリース済みHatterを利用者の一連の行動から検証する",
+  "objective": "第三者の利用者と同じprocess・HTTP・browser境界だけを使い、個別画面の到達確認ではなく、入力、認可、HAT取得、構成、宣言的UI、実働worker、Codex観測、永続化の因果関係を具体値とdigestで横断照合する。",
+  "prerequisites": [
+    "検証済みHatter製品の絶対パスをHATTER_E2E_HATTER_BINへ設定する。",
+    "検証済みhat-accountant-workerの絶対パスをHATTER_E2E_WORKER_BINへ設定する。",
+    "固定されたPlaywright版が管理するLinux Chromiumを事前に導入し、ブラウザのパスやWindows実行ファイルを外部入力にしない。",
+    "127.0.0.1:4213を使用しているHatter Consoleを終了する。",
+    "外部networkと永続credentialは使わず、一時HATTER_HOME、試験用Ed25519鍵、署名対象packageだけを使う。",
+    "最初の失敗で後続の変更操作を止め、Console、browser、一時状態は成否にかかわらず破棄する。"
+  ],
+  "coverage": [
+    "fixture-boundary",
+    "session-and-http-security",
+    "foundation-initial-state",
+    "catalog-trust-and-cas",
+    "package-integrity-and-ui",
+    "atomic-composition",
+    "guided-installed-ui",
+    "monotonic-composition-recovery",
+    "runtime-projections",
+    "model-route-guard",
+    "codex-runtime-observability",
+    "live-hat-execution",
+    "restart-and-session-recovery",
+    "retired-text-matcher-absence",
+    "adopted-semantic-memory"
+  ],
+  "steps": [
+    {
+      "id": "S01",
+      "scenarioId": "secure-first-entry",
+      "covers": [
+        "fixture-boundary",
+        "session-and-http-security",
+        "retired-text-matcher-absence",
+        "adopted-semantic-memory"
+      ],
+      "evidence": [
+        "process",
+        "http",
+        "state",
+        "artifact"
+      ],
+      "actions": [
+        "prepare_fixture",
+        "start_console",
+        "reject_uninitialized_connection",
+        "reject_http_boundary_substitution",
+        "connect_browser",
+        "verify_repeatable_connection",
+        "verify_memory_navigation_boundary",
+        "verify_context_checkpoint_lifecycle",
+        "verify_semantic_memory_projection",
+        "verify_dynamic_dictionary",
+        "verify_retired_translation_absence",
+        "open_pages"
+      ],
+      "title": "所有者が隔離された製品へ安全に初回アクセスする",
+      "manual": "署名済み試験配布元と隔離状態を準備し、Host・Origin・CSRF前段のHTTP境界、固定URLの自動接続、SSR route、内部cookieを一つの初回利用として確認する。",
+      "checks": [
+        "実行対象、HATTER_HOME、package、署名鍵、loopback portが外部製品境界と一時領域に限定される。",
+        "未認証、誤Host、誤Originを正確なHTTP statusと理由codeで拒否し、内部接続の確立前も業務APIは保護される。",
+        "Cookieなし実ブラウザで固定URLを開くだけで接続し、reloadは同じ内部接続を再利用する。別ブラウザも認証操作なしで接続でき、旧session APIは404。8時間cookieと43文字CSRFは内部状態としてのみ保持する。",
+        "主要SSR routeは同一security header集合を返し、500、外部CORS、credential漏洩を生じない。",
+        "旧単語照合APIは既知語・未知語とも404となり、辞書や権限を変更しない。sem-lang frontendや記憶の受入完了とは区別する。",
+        "採用済み長期記憶の意味構造、決定参照、revisionが製品から取得でき、フォームがその同じ定義を参照する。固定フォームや単語一覧だけでは失敗とする。CLIとHTTPは完全一致し、閲覧で本人情報や定義が変化しない。"
+      ],
+      "reviewPoints": [
+        "初回アクセス: Hatter専用Passkey APIは404となり、プロフィール設定だけが表示される。固定URLで自動的に接続できるか。",
+        "宣言一致だけでなく、独立管理した最低限の表示例でIdentity・Place・Agentの参照と英語・日本語の分類名を照合する。本人情報へのHATフォーム追加や意味的同値性全体の保証とは区別する。"
+      ]
+    },
+    {
+      "id": "S02",
+      "scenarioId": "trusted-hat-discovery",
+      "covers": [
+        "foundation-initial-state",
+        "catalog-trust-and-cas",
+        "session-and-http-security"
+      ],
+      "evidence": [
+        "http",
+        "state",
+        "cryptographic",
+        "artifact"
+      ],
+      "actions": [
+        "read_default_sources",
+        "read_empty_initial_state",
+        "verify_empty_world",
+        "select_local_source",
+        "reject_stale_source_revision",
+        "reject_tampered_catalog",
+        "list_catalog"
+      ],
+      "title": "初期世界を確認して信頼できるHAT配布元へ切り替える",
+      "manual": "HAT 0件・推論未接続の初期世界を読み、local sourceをCAS更新し、stale revision、署名改ざん、path漏洩を拒否して復元後の全候補を照合する。",
+      "checks": [
+        "初期状態はinstalled HAT、capability、information surfaceが0件で、Hatter FoundationをHATとして捏造しない。プロフィール3項目だけが同じAction Flowへ完全一致で投影される。",
+        "辞書表示は現在の提供元hat-specificationsを正確に示し、Personの表示名とcore.entityへの依存を照合する。全relationの両端が存在し、親分類はis-aだけから生成される。実ブラウザで同じ概念を選ぶと依存の種類が表示され、sem-lang提供と偽らない。",
+        "未認証時もProvider能力として提示するmodel catalogは一覧件数と完全一致し、既定modelや推論接続を捏造しない。",
+        "Nowはself nodeだけを投影し、推論未接続を障害扱いせず、event、place、旧workspace集約、独立TODOを補完しない。",
+        "bounded wake-upは同じcanonical stateから実行可能Taskだけを選択し、初期状態では空集合を返す。",
+        "source変更はCSRF、UUID nonce、expected revisionを同時に満たす場合だけrevisionを進め、replayとstale writeは状態不変で拒否する。",
+        "local pathは表示用語へ置換され、公開鍵fingerprint、logical origin、catalog digest、候補とcategory件数は署名fixtureと完全一致する。",
+        "改ざん署名から候補を生成せず、復元後もrepository順序とinstall状態を推測しない。"
+      ],
+      "reviewPoints": [
+        "配布元選択: 署名と改ざん拒否が正常でも、配布元・発行者・導入候補の信頼根拠を専門知識なしで判別できるか。"
+      ]
+    },
+    {
+      "id": "S03",
+      "scenarioId": "verified-hat-acquisition",
+      "covers": [
+        "package-integrity-and-ui",
+        "guided-installed-ui",
+        "catalog-trust-and-cas"
+      ],
+      "evidence": [
+        "http",
+        "state",
+        "cryptographic",
+        "artifact"
+      ],
+      "actions": [
+        "reject_tampered_package",
+        "install_packages",
+        "verify_idempotent_install",
+        "read_package_descriptors",
+        "open_installed_categories"
+      ],
+      "title": "利用者がHATを選び宣言内容を確認して導入する",
+      "manual": "package差替えを拒否した後に会計担当と予算プランナーを導入し、冪等性、manifest全field、利用者向けcategoryとSystem内部構造を同じ取得操作の結果として確認する。",
+      "checks": [
+        "Catalog取得後の1 byte差替えはpackage verificationで拒否され、installationやrevisionを作らない。",
+        "2件のinstallationはrepository、package ID、version、specification、digest、artifact referenceが生bytesと一致する。",
+        "同一packageの再導入はresponseとdetailがdeep equalであり、副作用を起こさない。",
+        "capability、decision boundary、classification、permission、operation procedure、vocabulary、context requirementはmanifestと全field一致する。",
+        "利用者向けcategoryは署名済みhandleだけから構築され、package内部構造はSystemへ分離され、任意pathや未宣言操作を要求しない。"
+      ],
+      "reviewPoints": [
+        "HAT導入: 宣言の表示一致と専門機能の実装済み状態を区別できるか。参照整理の成功を日本会計基準への適合と表示してはいけない。"
+      ]
+    },
+    {
+      "id": "S04",
+      "scenarioId": "composed-role-guidance",
+      "covers": [
+        "atomic-composition",
+        "guided-installed-ui",
+        "session-and-http-security"
+      ],
+      "evidence": [
+        "http",
+        "browser",
+        "state",
+        "cryptographic"
+      ],
+      "actions": [
+        "prepare_full_composition",
+        "approve_full_composition",
+        "verify_full_composition",
+        "verify_composition_replay",
+        "reject_stale_composition",
+        "verify_guided_initial_state",
+        "verify_guided_ui"
+      ],
+      "title": "導入したHATを一つの役割へ構成し案内から操作する",
+      "manual": "署名済み宣言から依存を解決した2-HAT proposalを原子的に承認し、意味カタログと配布カタログのdigestを区別して照合した後、実browserで単一Scene、Temporal Bar、分野、HAT詳細、操作へ移動する。",
+      "checks": [
+        "逆順入力はrepository順へ正規化され、依存は署名済みpackageのcatalog.dependenciesと一致する。今回のfixtureはHAT間依存を宣言しないため、依存DAGや循環拒否の受入とは扱わない。proposal digestは独立再計算する。",
+        "approvalは2 bindingを同一revisionで原子的にactive化し、個別readとcontext partition digestが完全一致する。",
+        "同一approval replayはrevisionを進めず、別proposalのstale approvalは状態不変で拒否される。",
+        "初回チュートリアルは表示名、国と地域、言語の3段階だけを順序付きで示し、未登録状態では0/3、次の操作は表示名となる。本人、表示名、居住地、地域情報、言語、表示言語のノードと関係は推測せず、保存済み事実だけから完全一致で投影する。",
+        "プロフィール3項目、端末保護、シードフレーズ一次復旧、署名済み候補が存在する会計HATの配置taskが同じAction Flowへ現れ、source kind、repository、package digest、revision、遷移先が一致する。",
+        "導入済みHATの初期設定はbinding前も隠さず、利用範囲は操作数やcontext区画数ではなく有効contextが一つもないrepositoryごとに一件だけ提示する。",
+        "実browserは単一主Sceneで開始し、旧右詳細ペインを生成しない。1440px・1024px・390pxで主領域がviewportを越えず、初期設定は /?task=、HAT詳細は導入画面内で選択し、category、Work、operationへ遷移できる。",
+        "Work Viewの配置待ち操作はTemporal Barと同じflowItemIdで表示され、配置候補がないHATやHATが宣言していない待ち操作を補完しない。",
+        "利用者向け画面は導入した2件だけを表示し、旧CoordinatorやGitHub操作をFoundationとして補完しない。",
+        "各操作の個別画面は署名済み宣言からpackage、必須context、binding、配置、worker、実行と結果の手順を生成し、TODO件数とは別に準備状態を完全一致で示す。",
+        "表示内容はAPIのrepository、operation、scope、導入状態と一致し、JavaScript例外、console warning/error、HTTP 500がない。"
+      ],
+      "reviewPoints": [
+        "ホームとカテゴリ: 単一ペイン遷移と390px幅の表示成功後も、初回設定の説明量、詳細の発見性、項目密度を実利用で確認する。"
+      ]
+    },
+    {
+      "id": "S05",
+      "scenarioId": "monotonic-twin-projection",
+      "covers": [
+        "monotonic-composition-recovery",
+        "runtime-projections",
+        "atomic-composition"
+      ],
+      "evidence": [
+        "http",
+        "state",
+        "cryptographic"
+      ],
+      "actions": [
+        "remove_composition_member",
+        "verify_removed_member",
+        "restore_composition_member",
+        "verify_restored_member",
+        "read_exact_capabilities",
+        "read_exact_projection_journals",
+        "verify_digital_twin_projection",
+        "verify_dynamic_installed_dictionary"
+      ],
+      "title": "役割の付け替えを行いDigital Twinへ単調に反映する",
+      "manual": "budget-plannerを外して戻し、inactive履歴、単調revision、partition別capability、空Projection Journal、Nowとclosed Digital Twin projectionを一続きの変更履歴として照合する。",
+      "checks": [
+        "removeはcomposition revision=2で対象をinactiveとして保持し、再追加はrevision=3を再利用せずactive化する。",
+        "compositionと個別bindingのrepository、partition、revision、activeが各段階でdeep equalになる。",
+        "2 partition×2 operationはpackage digest、schema、handler、binding/placement要求を重複なく4件投影する。",
+        "未実行Projection Journalは選択partition/packageに対して0→0、events=[]を正確に返し、Digital Twin timelineとは別の技術投影であることをUIでも示す。",
+        "NowはSituationだけを集約し、6 closed projectionは同一graph revisionと正確な空集合を返し、未知projectionを拒否する。"
+      ],
+      "reviewPoints": [
+        "役割変更: revisionと再導入の整合が成功しても、有効・無効の違いと過去の情報が残る理由を視覚的に判別できるか。"
+      ]
+    },
+    {
+      "id": "S06",
+      "scenarioId": "inference-and-observability-guard",
+      "covers": [
+        "model-route-guard",
+        "codex-runtime-observability",
+        "runtime-projections"
+      ],
+      "evidence": [
+        "http",
+        "browser",
+        "state"
+      ],
+      "actions": [
+        "read_empty_model_routes",
+        "reject_unavailable_model_route",
+        "verify_codex_runtime_observability",
+        "verify_codex_runtime_ui"
+      ],
+      "title": "推論経路を補完せずCodexの実測可能範囲を観測する",
+      "manual": "未認証モデルmeshを読み、存在しないaccountへのroute作成を拒否し、owner-local Codex trace APIとシステムUIが生contentや推測料金を出さないことを確認する。",
+      "checks": [
+        "未認証時も設定済み推論providerをendpointやcredentialなしで列挙し、exactly oneのactive providerとService Meshのservice集合を完全一致させる。account、route、binding、invocationは空集合のままとし、providerを固定値で補完しない。",
+        "存在しないopaque accountへのwriteはmodel routeとservice meshのrevision・内容を変えず拒否する。",
+        "Codex traceはrecording/source/raw-content境界を明示し、未実行を空集合として返して値を捏造しない。",
+        "システムUIはtoken、cache、tool、compactingの実測枠とprivacy説明を表示し、provider未提供の通貨料金を推定しない。"
+      ],
+      "reviewPoints": [
+        "推論状態: 未接続を正しく表示しても、モデル導入と外部アカウント追加を混同しないか。実モデル実行は別の受入条件。"
+      ]
+    },
+    {
+      "id": "S07",
+      "scenarioId": "external-hat-operation",
+      "covers": [
+        "live-hat-execution",
+        "runtime-projections",
+        "guided-installed-ui"
+      ],
+      "evidence": [
+        "process",
+        "http",
+        "browser",
+        "state",
+        "artifact",
+        "cryptographic"
+      ],
+      "actions": [
+        "list_accountant_placement",
+        "reject_placement_substitution",
+        "select_accountant_placement",
+        "run_accountant_worker",
+        "verify_accountant_result_and_projection_journal",
+        "verify_runtime_operation_ingestion"
+      ],
+      "title": "選択した外部HAT workerへ仕事を任せ結果を予実へ戻す",
+      "manual": "署名済み配置候補を選び、集合外差替えを拒否し、外部accountant workerへcontent-addressed入力を渡して結果実体、Projection Journal、Service Mesh、Action Flowを同じidentityで照合する。",
+      "checks": [
+        "placement候補は署名済みdirectory/location-setのowner-local一件だけで、集合外locationを副作用なく拒否する。",
+        "選択responseとread responseのpartition、repository、binding revision、全digestがdeep equalになる。",
+        "同じpartition/repositoryへ別processのworkerを同時登録すると一方だけが所有し、選択されたworkerはQueued revision=1から処理して入力digest、出力file、bytes digest、schema、scope、revision、語彙値が実体と一致する。",
+        "invocationはCompleted revision=3、result projection revision=1、Projection Journalは0→1の一eventとして一致し、共通event語彙、発生時刻、観測時刻、invocation correlationをAPIとブラウザで照合できる。",
+        "Service MeshとAction Flowは同じinvocation/operation/package digest/revisionを一件だけ持ち、requested→planned→actual→completedの時刻順と差分を照合する。",
+        "worker出力本文、secret、出力digest自体をoperation recordへ複製しない。"
+      ],
+      "reviewPoints": [
+        "実行結果: workerの参照整列・重複除去は通信境界の検証であり、会計判断ではない。原本、結果、適用ルールの違いを画面で識別できるか。"
+      ]
+    },
+    {
+      "id": "S08",
+      "scenarioId": "durable-owner-recovery",
+      "covers": [
+        "restart-and-session-recovery",
+        "session-and-http-security",
+        "runtime-projections"
+      ],
+      "evidence": [
+        "process",
+        "http",
+        "state"
+      ],
+      "actions": [
+        "capture_restart_snapshot",
+        "restart_console",
+        "reject_old_session",
+        "read_restarted_state",
+        "verify_dynamic_restarted_dictionary",
+        "verify_declared_profile_write_and_recovery"
+      ],
+      "title": "製品再起動後に所有者の永続状態だけを復元する",
+      "manual": "全projectionを採取してConsoleを正常再起動し、旧process sessionを拒否した上で自動接続からsource、HAT、構成、実働結果、Projection Journalを再照合する。",
+      "checks": [
+        "再起動前snapshotはsource revision=1、追加package=2、composition revision=3、capability=4、Completed invocationを含む。",
+        "旧processを終了してportを解放し、新processも同じ固定URLを表示する。",
+        "旧cookieは正確なsession-rejectedとなり、browser sessionやChatGPT credentialをdiskから復元しない。",
+        "新sessionではsource、package、composition、binding、Projection Journal、Now、実働結果がdeep equalになり、削除済みHATを復元しない。",
+        "連続性projectionは作業領域、2件の署名済みHAT、2件の外部workerを重複なく分類し、HAT実体はretained、未配置workerはselect-placement、正常終了して登録解除したworkerはregisterとして提示し、path・worker identityを代替しない。",
+        "実ブラウザで表示名を保存し、日本語→フランス語を選ぶ。分類名は日本語→英語フォールバックへ変わるが、概念ID・辞書digest・保存した表示名は不変で、再起動後も保持される。世界の一覧と詳細も同じ言語になる。"
+      ],
+      "reviewPoints": [
+        "再起動: 永続状態の一致と古いセッション拒否に成功しても、復帰時に次の操作が明確か。Passkey・シード復旧はHatterの責務ではなく独立Crowsi/Zixcelパッケージで検証する。"
+      ]
+    }
+  ]
+}
