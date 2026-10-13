@@ -60,3 +60,12 @@ Schema definitions in the map remain owned by their canonical validator and
 consumers. An absent schema file means no separate schema file is declared; it does
 not mean the runtime interface has no validation. Do not introduce another common
 schema solely to mirror an implementation type.
+
+## External harness source boundary
+
+`harness-source.yml` compiles the use-case matrix into the exact checked-in scenario
+and runs the harness contract/release-rejection tests. Its name and scope explicitly
+exclude the released multi-HAT product journey. It imports no private product source
+and does not stage/activate an installation. Product acceptance still requires the
+exact released launcher and `bin/verify-release.mjs`; harness success cannot close
+missing/failed/skipped release requirements or substitute for executable UI checks.
