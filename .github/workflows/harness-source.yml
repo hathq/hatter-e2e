@@ -1,0 +1,28 @@
+# Added by the Hatter downstream project, 2026.
+# Purpose: verify the external acceptance harness, never certify a product release.
+name: External harness source
+on:
+  pull_request:
+  push:
+    branches: [main, 'coela/**']
+permissions:
+  contents: read
+jobs:
+  harness-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24.15.0'
+          package-manager-cache: false
+      - name: Install pinned package manager
+        run: npm install --global --ignore-scripts --no-audit --no-fund pnpm@10.29.3
+      - run: pnpm install --frozen-lockfile --store-dir "$RUNNER_TEMP/harness-store" --registry=https://registry.npmjs.org
+      - name: Compile the exact declared scenario
+        run: pnpm scenario:compile && git diff --exit-code -- scenario.json
+      - name: Verify harness consistency and rejection rules
+        run: pnpm test:contract
