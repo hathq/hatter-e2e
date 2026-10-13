@@ -36,6 +36,54 @@
   "example_sources": [],
   "workflow_definitions": [
     {
+      "path": ".github/workflows/harness-source.yml",
+      "jobs": [
+        {
+          "job": "harness-only",
+          "condition": null,
+          "runs_on": "ubuntu-24.04",
+          "steps": [
+            {
+              "name": null,
+              "run": null,
+              "uses": "actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+              "condition": null
+            },
+            {
+              "name": null,
+              "run": null,
+              "uses": "actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+              "condition": null
+            },
+            {
+              "name": "Install pinned package manager",
+              "run": "npm install --global --ignore-scripts --no-audit --no-fund pnpm@10.29.3",
+              "uses": null,
+              "condition": null
+            },
+            {
+              "name": null,
+              "run": "pnpm install --frozen-lockfile --store-dir \"$RUNNER_TEMP/harness-store\" --registry=https://registry.npmjs.org",
+              "uses": null,
+              "condition": null
+            },
+            {
+              "name": "Compile the exact declared scenario",
+              "run": "pnpm scenario:compile && git diff --exit-code -- scenario.json",
+              "uses": null,
+              "condition": null
+            },
+            {
+              "name": "Verify harness consistency and rejection rules",
+              "run": "pnpm test:contract",
+              "uses": null,
+              "condition": null
+            }
+          ]
+        }
+      ]
+    },
+    {
       "path": ".github/workflows/oss-policy.yml",
       "jobs": [
         {
