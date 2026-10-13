@@ -1,0 +1,76 @@
+{
+  "repository": "hathq/hatter-e2e",
+  "purpose": "Test a released Hatter generation through the same browser and process boundaries used by an owner.",
+  "responsibility_boundary": "Own only the documented product/interface scope. Reuse applicable managed common components without forcing unrelated dependencies. Separate synthetic source acceptance from actual account, data and deployment acceptance.",
+  "packages": [
+    {
+      "manifest": "package.json",
+      "package": "@hathq/hatter-e2e",
+      "ecosystem": "npm",
+      "description": null,
+      "interfaces": {
+        "exports": {},
+        "bin": {},
+        "main": null,
+        "types": null
+      },
+      "declared_commands": {
+        "scenario:compile": "node bin/compile-scenario.mjs",
+        "test": "playwright test --config playwright.config.mjs",
+        "test:contract": "playwright test --config playwright.config.mjs --grep-invert 'released multi-HAT acceptance'",
+        "manual": "node bin/manual.mjs",
+        "showcase": "node bin/showcase.mjs"
+      }
+    }
+  ],
+  "schema_definitions": [],
+  "test_sources": [
+    "src/browser.mjs",
+    "src/console-client.mjs",
+    "src/fixture.mjs",
+    "src/scenario-runner.mjs",
+    "test/catalog-install.e2e.test.mjs",
+    "test/release-requirements.test.mjs",
+    "test/reviewed-ui-examples.test.mjs"
+  ],
+  "example_sources": [],
+  "workflow_definitions": [
+    {
+      "path": ".github/workflows/oss-policy.yml",
+      "jobs": [
+        {
+          "job": "repository-policy",
+          "condition": null,
+          "runs_on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": null,
+              "run": null,
+              "uses": "actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+              "condition": null
+            },
+            {
+              "name": "Verify repository policy",
+              "run": "python3 .github/oss-policy-check.py",
+              "uses": null,
+              "condition": null
+            },
+            {
+              "name": "Verify policy regression tests",
+              "run": "cd .github && python3 -m unittest discover -s policy-tests",
+              "uses": null,
+              "condition": null
+            },
+            {
+              "name": "Check policy types",
+              "run": "python3 -m venv \"$RUNNER_TEMP/policy-types\"\n\"$RUNNER_TEMP/policy-types/bin/pip\" install -r .github/policy/requirements.txt\n\"$RUNNER_TEMP/policy-types/bin/mypy\" --strict .github/policy .github/oss-policy-check.py .github/policy-tests\n",
+              "uses": null,
+              "condition": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "evidence_policy": "Declarations and source paths are not proof of an executed acceptance. Exact CI head and result are recorded separately. No live accounts or production acceptance is inferred."
+}
