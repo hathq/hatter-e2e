@@ -48,6 +48,7 @@ test('acceptance harness keeps the scenario, fixtures, and external boundary con
     '../fixtures/hat.package.json', '../fixtures/hat-budget-planner.package.json'
   ].map(async path => JSON.parse(await readFile(new URL(path, import.meta.url), 'utf8'))))
   for (const fixture of fixtures) {
+    assert.equal(Object.hasOwn(fixture.catalog, 'frames'), false)
     assert.equal(fixture.version, '1.0.1')
     assert.equal(fixture.manifest.version, fixture.version)
     assert.equal(fixture.operations.length, 1)
